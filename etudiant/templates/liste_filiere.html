@@ -1,0 +1,174 @@
+
+{% extends "base.html" %}
+
+
+{% block title %} Liste Filiere {% endblock title %}
+
+
+{% block content %}
+<!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h1 mb-2 text-gray-800">Liste des Filieres</h1>
+                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione nam placeat dicta ducimus! Porro quia ut veniam fugit officia, <br>vitae temporibus odio aspernatur et perspiciatis, earum cum, vero voluptas. Nisi?<a target="_blank">
+
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                           <a href="{% url 'ajout_filiere' %}" class="btn btn-primary">Ajouter une filiere</a>                                         
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <form method="GET" class="mb-4">
+
+                        <div class="row">
+
+                            <!-- Nom de la filière -->
+                            <div class="col-md-2">
+                                <input type="text" name="nom" class="form-control" placeholder="Nom de la filière" value="{{ request.GET.nom }}">
+                            </div>
+
+                            <!-- UFR -->
+                            <div class="col-md-2">
+                                <select name="ufr" class="form-control">
+                                    <option value="">Sélectionner l'UFR</option>
+                                    {% for ufr in ufrs %}
+                                        <option value="{{ ufr.id }}" {% if request.GET.ufr == ufr.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ ufr.nom }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary">Rechercher</button>
+                                <a href="{% url 'liste_filiere' %}" class="btn btn-warning">Réinitialiser</a>
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                    </form>
+
+                    <!-- DataTales Matiere -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5 class=" mt-2 font-weight-bold text-primary">liste des Filiere</h5>
+                                    
+                                </div>
+                                <div class="col-lg-6">
+                                <div class="d-sm-flex align-items-center justify-content-between">
+                                
+                                <h1 class="h3 mb-0 text-gray-800"></h1>
+
+                                <!-- <div>
+                                    <a href="?{{ request.GET.urlencode }}" 
+                                    class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
+                                        <i class="fas fa-file-pdf fa-sm text-white-50"></i> Télécharger PDF
+                                    </a>
+
+                                    <a href="?{{ request.GET.urlencode }}" 
+                                    class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                        <i class="fas fa-file-excel fa-sm text-white-50"></i> Télécharger Excel
+                                    </a>
+                                </div> -->
+
+                            </div> </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Filiere</th>
+                                            <th>UFR</th>
+                                            <th>Description</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    {% for mat in filieres %} 
+                                                                          
+                                    <tbody>
+                                        <tr>
+                                            <td>{{mat.nom}}</td>
+                                            <td>{{mat.ufr}}</td>
+                                            <td>{{mat.description}}</td>
+                                            <td>
+                                                <a href="{% url 'modifier_filiere' mat.id %}" class="btn btn-warning btn-sm" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                <a href="{% url 'supprimer_filiere' mat.id %}" class="btn btn-danger btn-sm" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+
+                                                <a href="" class="btn btn-info btn-sm" title="Voir les informations">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                     {% endfor %}
+
+                                              <!-- Pagination juste après la liste des étudiants -->
+                                    <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
+                                        <ul class="pagination">
+
+                                        {% if filieres.has_previous %}
+                                            <li class="page-item">
+                                            <a class="page-link" href="?page={{ filieres.previous_page_number }}">&laquo; Précédent</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                            <span class="page-link">&laquo; Précédent</span>
+                                            </li>
+                                        {% endif %}
+
+                                        {% for num in filieres.paginator.page_range %}
+                                            {% if filieres.number == num %}
+                                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                            {% elif num > filieres.number|add:-3 and num < filieres.number|add:3 %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if filieres.has_next %}
+                                            <li class="page-item">
+                                            <a class="page-link" href="?page={{ filieres.next_page_number }}">Suivant &raquo;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                            <span class="page-link">Suivant &raquo;</span>
+                                            </li>
+                                        {% endif %}
+
+                                        </ul>
+                                    </nav>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                    
+{% endblock content %}
+    
+    
+                

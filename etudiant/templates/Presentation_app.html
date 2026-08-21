@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- IMPORTANT pour le responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>UBKou - Réclamation de réadmission</title>
+
+    <!-- Fonts & CSS -->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/presentation/styles.css' %}" rel="stylesheet">
+
+    <style>
+        :root {
+            --green-dark: #0b6b4f;
+            --green-mid: #14875f;
+            --green-light: #1cc88a;
+        }
+
+        body {
+            background: url("{% static 'img/header.jpg' %}") center/cover no-repeat;
+        }
+
+        .masthead {
+            position: relative;
+            min-height: 100vh;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .masthead::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(11, 107, 79, 0.88) 0%, rgba(20, 135, 95, 0.82) 45%, rgba(15, 40, 33, 0.9) 100%);
+            z-index: 0;
+        }
+
+        .masthead .container {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+        }
+
+        .masthead-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 6px 16px;
+            border-radius: 999px;
+            margin-bottom: 22px;
+        }
+
+        .masthead-subheading {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            opacity: 0.92;
+        }
+
+        .masthead-heading {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+
+        .masthead-desc {
+            font-size: 0.98rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 34px;
+        }
+
+        .btn-group-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .btn-xl {
+            padding: 14px 30px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            border-radius: 10px;
+        }
+
+        .btn-reclamation {
+            background: linear-gradient(90deg, var(--green-light), #24e0a4);
+            border: none;
+            color: #0b2e22;
+        }
+
+        .btn-reclamation:hover {
+            opacity: 0.92;
+            color: #0b2e22;
+        }
+
+        .btn-outline-light {
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #fff;
+            background: transparent;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .admin-icon {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 18px;
+            z-index: 9999;
+
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.25s;
+        }
+
+        .admin-icon:hover {
+            background: var(--green-mid);
+            transform: scale(1.08);
+        }
+
+        @media (min-width: 768px) {
+            .masthead-subheading {
+                font-size: 1.25rem;
+            }
+
+            .masthead-heading {
+                font-size: 2.1rem;
+            }
+
+            .masthead-desc {
+                font-size: 1.05rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn-xl {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <header class="masthead d-flex align-items-center justify-content-center">
+        <div class="container text-center">
+
+            <span class="masthead-tag">Université de Bondoukou · UBKou</span>
+
+            <div class="masthead-subheading">
+                Service des réclamations — Réadmission universitaire
+            </div>
+
+            <div class="masthead-heading text-uppercase">
+                Un problème avec votre réadmission ?
+            </div>
+
+            <div class="masthead-desc">
+                Décision incohérente, dossier non traité, information manquante : déposez votre réclamation en
+                ligne en quelques minutes. Un numéro de dossier vous sera attribué pour suivre son traitement.
+            </div>
+
+            <div class="btn-group-actions">
+                <a class="btn btn-xl btn-reclamation text-uppercase"
+                   href="{% url 'ajout_etudiant' %}">
+                   Faire une réclamation
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <a href="{% url 'connexion' %}" class="admin-icon" title="Connexion administrateur">
+        <i class="fas fa-user-shield"></i>
+    </a>
+
+    <!-- JS -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'js/presentation/scripts.js' %}"></script>
+
+</body>
+
+</html>

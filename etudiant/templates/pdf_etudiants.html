@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+
+<style>
+
+@page {
+size: A4 landscape;
+margin: 2cm;
+}
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+margin:40px;
+font-size:13px;
+color:#333;
+}
+
+.header{
+width:100%;
+border-bottom:3px solid #0e8800;
+padding-bottom:10px;
+margin-bottom:20px;
+}
+
+.header table{
+width:100%;
+}
+
+.logo{
+width:90px;
+}
+
+.company-info{
+text-align:right;
+}
+
+.company-name{
+font-size:20px;
+font-weight:bold;
+color:#0e8800;
+}
+
+.title{
+text-align:center;
+font-size:22px;
+font-weight:bold;
+margin:20px 0;
+}
+
+table.liste{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+table.liste th{
+background:#0e8800;
+color:white;
+padding:3px;
+border:1px solid #9d9d9d;
+font-size:11px;
+}
+
+table.liste td{
+border:1px solid #9d9d9d;
+padding: 5px;
+text-align:center;
+font-size: 11px;
+}
+
+table.liste tr:nth-child(even){
+background:#f4f6f7;
+}
+
+.footer{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+text-align:center;
+font-size:12px;
+color:#777;
+border-top:1px solid #b4b4b4;
+padding-top:5px;
+}
+.col-numero{width:43px;}
+.col-telephone{width:110px;}
+.col-IP{width:100px;}
+.col-sexe{width:40px;}
+.col-niveau{width:50px;}
+.col-admis{width:60px;}
+.col-ufr{width:60px;}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<table>
+<tr>
+
+<td>
+<img src="{{ logo_path }}" style="height:200px;">
+</td>
+
+<td class="company-info">
+
+<div class="company-name">CROU BONDOUKOU</div>
+
+Gestion du logement<br>
+Bondoukou - Côte d'Ivoire<br>
++225 27 33 73 88 23<br>
+contact@croubondoukou.ci
+
+</td>
+
+</tr>
+</table>
+</div>
+
+<div class="title">
+LISTE DES ÉTUDIANTS
+</div>
+
+<table class="liste">
+
+<tr>
+<th class="col-numero">N°</th>
+<th class="col-IP">IP</th>
+<th class="col-nom">Nom & Prénoms</th>
+<th class="col-sexe">Sexe</th>
+<th class="col-niveau">Niveau</th>
+<th>Filière</th>
+<th class="col-ufr">UFR</th>
+<th class="col-telephone">Telephone</th>
+<th class="col-admis">Admis</th>
+</tr>
+
+{% for e in etudiants %}
+
+<tr>
+
+<td class="col-numero">{{ forloop.counter }}</td>
+
+<td class="col-ip">{{ e.identifiant_permanent }}</td>
+
+<td class="col-nom">{{ e.nom }} {{ e.prenoms }}</td>
+
+<td class="col-sexe">{{ e.sexe }}</td>
+
+<td class="col-niveau">{{ e.niveau }}</td>
+
+<td>{{ e.filiere.nom }}</td>
+
+<td class="col-ufr">{{ e.filiere.ufr.nom }}</td>
+
+<td class="col-ufr">{{ e.telephone }}</td>
+
+<td class="col-Admis">
+    {% if e.admissible == 'oui' %}
+        <span class="badge badge-success">Oui</span>
+    {% else %}
+        <span class="badge badge-danger">Non</span>
+    {% endif %}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<div class="footer">
+Document généré le — {{ today }}
+</div>
+
+</body>
+</html>

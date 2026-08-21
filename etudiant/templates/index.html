@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Accueil {% endblock title %}
+    
+
+{% block content %}
+
+     <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Réadmission - Tableau de bord </h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                       <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                           <a href="{% url 'liste_etudiant' %}" class="btn btn-success">Toutes les Réclamations</a>                                         
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- Content Row -->
+
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+       
+           <div class="container-fluid py-4">
+
+    <h1 class="h3 mb-4 text-gray-800">Statistiques des étudiants</h1>
+
+    <div class="row">
+
+        <!-- Par sexe -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header text-success">
+                    Étudiants par sexe
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Sexe</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in stats_sexe %}
+                                <tr>
+                                    <td>{% if s.sexe == "M" %}Masculin{% else %}Féminin{% endif %}</td>
+                                    <td>{{ s.total }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Par UFR -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header text-success">
+                    Étudiants par UFR
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-success">
+                            <tr>
+                                <th>UFR</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in stats_ufr %}
+                                <tr>
+                                    <td>{{ u.filiere__ufr__nom }}</td>
+                                    <td>{{ u.total }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Par filière -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header text-success">
+                    Étudiants par filière
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Filière</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for f in stats_filiere %}
+                                <tr>
+                                    <td>{{ f.filiere__nom }}</td>
+                                    <td>{{ f.total }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}
+    
+
+               

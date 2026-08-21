@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Réclamations - {{ titre }}</title>
+
+    <!-- Fonts -->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700" rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+    <style>
+        :root {
+            --green-dark: #0b6b4f;
+            --green-mid: #14875f;
+            --green-light: #1cc88a;
+            --ink: #22302b;
+            --ink-soft: #6b7a73;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-mid) 45%, var(--green-light) 100%);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .card {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .card-accent {
+            height: 6px;
+            background: linear-gradient(90deg, var(--green-dark), var(--green-light));
+        }
+
+        .form-title {
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .form-subtitle {
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+        }
+
+        .icon-badge {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .icon-badge i {
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        hr.divider {
+            border-top: 1px solid #e3e9e6;
+            margin: 1.5rem 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #d9e2de;
+            padding: 10px 12px;
+        }
+
+        .form-control:focus {
+            border-color: var(--green-mid);
+            box-shadow: 0 0 0 0.2rem rgba(20, 135, 95, 0.15);
+        }
+
+        .btn-submit {
+            border-radius: 10px;
+            font-weight: 700;
+            padding: 12px;
+            background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+            border: none;
+            transition: opacity 0.15s ease;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.92;
+            background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+        }
+
+        .alert-info {
+            border-radius: 10px;
+            border: none;
+            background: #e7f5ef;
+            color: var(--green-dark);
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+        }
+
+        .modal-header .modal-title,
+        .modal-header .close {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="d-flex align-items-center py-5">
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8 col-md-10">
+
+                <div class="card shadow-lg border-0">
+                    <div class="card-accent"></div>
+
+                    <div class="card-body p-5">
+
+                        <!-- Titre -->
+                        <div class="text-center mb-3">
+                            <div class="icon-badge">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h2 class="form-title">{{ titre }}</h2>
+                            <p class="form-subtitle">Décrivez votre problème avec précision, nous reviendrons vers vous rapidement</p>
+                        </div>
+
+                        <hr class="divider">
+
+                        <!-- Messages -->
+                        {% for message in messages %}
+                            <div class="alert alert-info text-center">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                        <!-- Formulaire -->
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                {{ form.as_p }}
+                            </div>
+
+                            <button type="submit" class="btn btn-submit btn-block text-white">
+                                <i class="fas fa-paper-plane"></i> Envoyer la réclamation
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Avertissement -->
+    <div id="warningModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">⚠️ Avant d'envoyer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Vérifiez que toutes les informations sont exactes et complètes.
+                        Une réclamation incomplète ou imprécise peut retarder son traitement.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">J'ai compris</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#warningModal').modal('show');
+        });
+    </script>
+</body>
+
+</html>

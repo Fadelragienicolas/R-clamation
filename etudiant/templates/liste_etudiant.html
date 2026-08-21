@@ -1,0 +1,263 @@
+
+{% extends "base.html" %}
+
+
+{% block title %} Liste Etudiante {% endblock title %}
+
+
+{% block content %}
+<!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h1 mb-2 text-gray-800">Toutes les Réclamations</h1>
+                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis itaque repellat, fugit odio a facilis quos ad sint vel ipsum atque ipsa. <br>Rerum ipsam consequatur ipsa doloribus ratione asperiores doloremque!<a target="_blank">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                           <a href="{% url 'accueil' %}" class="btn btn-success">Retour a l'accueil</a>                                         
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa- fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    <!-- <form method="GET" class="form-inline mb-3">
+
+                        <input type="text" name="search" class="form-control mr-2"
+                            placeholder="Rechercher un étudiant">
+
+                        <select name="tri" class="form-control mr-2">
+                            <option value="">Trier par</option>
+                            <option value="nom">Nom</option>
+                            <option value="prenom">Prénom</option>
+                            <option value="matricule">Matricule</option>
+                            <option value="filiere">Filière</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary">
+                            Rechercher
+                        </button>
+
+                    </form>                        -->
+
+
+                    <form method="GET" class="mb-4">
+
+                    <div class="row">
+
+                        <!-- Nom / Prénom -->
+                        <div class="col-md-2">
+                            <input type="text" name="nom" class="form-control" placeholder="Nom ou prénom" value="{{ request.GET.nom }}">
+                        </div>
+
+
+                        <!-- Sexe -->
+                        <div class="col-md-2">
+                            <select name="sexe" class="form-control">
+                                <option value="">Sexe</option>
+                                <option value="M" {% if request.GET.sexe == "M" %}selected{% endif %}>Masculin</option>
+                                <option value="F" {% if request.GET.sexe == "F" %}selected{% endif %}>Féminin</option>
+                            </select>
+                        </div>
+
+                        <!-- Niveau -->
+                        <div class="col-md-2">
+                            <select name="niveau" class="form-control">
+                                <option value="">Niveau</option>
+                                <option value="L1" {% if request.GET.niveau == "L1" %}selected{% endif %}>L1</option>
+                                <option value="L2" {% if request.GET.niveau == "L2" %}selected{% endif %}>L2</option>
+                                <option value="L3" {% if request.GET.niveau == "L3" %}selected{% endif %}>L3</option>
+                                <option value="M1" {% if request.GET.niveau == "M1" %}selected{% endif %}>M1</option>
+                                <option value="M2" {% if request.GET.niveau == "M2" %}selected{% endif %}>M2</option>
+                            </select>
+                        </div>
+
+                        <!-- Résident -->
+                        <div class="col-md-2">
+                            <select name="resident" class="form-control">
+                                <option value="">Admis</option>
+                                <option value="oui" {% if request.GET.resident == "oui" %}selected{% endif %}>Oui</option>
+                                <option value="non" {% if request.GET.resident == "non" %}selected{% endif %}>Non</option>
+                            </select>
+                        </div>
+
+                        <!-- Date d'inscription -->
+                        <div class="col-md-2">
+                            <input type="date" name="date" class="form-control" value="{{ request.GET.date }}">
+                        </div>
+
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+
+                        <!-- UFR -->
+                        <div class="col-md-3">
+                            <select name="ufr" id="ufrSelect" class="form-control">
+                                <option value="">UFR</option>
+                                {% for ufr in ufrs %}
+                                    <option value="{{ ufr.id }}" {% if request.GET.ufr == ufr.id|stringformat:"s" %}selected{% endif %}>{{ ufr.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Filière -->
+                        <div class="col-md-3">
+                            <select name="filiere" id="filiereSelect" class="form-control">
+                                <option value="">Filière</option>
+                                {% for filiere in filieres %}
+                                    <option value="{{ filiere.id }}" {% if request.GET.filiere == filiere.id|stringformat:"s" %}selected{% endif %}>{{ filiere.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Bouton Filtrer -->
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                            <a href="{% url 'liste_etudiant' %}" class="btn btn-warning">Réinitialiser</a>
+                        </div>
+
+                    </div>
+
+                </form>
+                            
+                    
+                    <!-- DataTales Etudiant -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5 class=" mt-2 font-weight-bold text-primary">liste des Etudiants</h5>
+                                    
+                                </div>
+                                <div class="col-lg-6">
+                                <div class="d-sm-flex align-items-center justify-content-between">
+                                
+                                <h1 class="h3 mb-0 text-gray-800"></h1>
+
+                                <div>
+                                    <a href="{% url 'export_pdf' %}?{{ request.GET.urlencode }}" class="btn btn-danger">
+                                        <i class="fas fa-file-pdf fa-sm text-white-50"></i> Télécharger PDF
+                                    </a>
+
+                                    <a href="{% url 'export_excel' %}?{{ request.GET.urlencode }}" class="btn btn-success">
+                                    <i class="fas fa-file-excel fa-sm text-white-50"></i> Télécharger Excel
+                                    </a>  
+                                </div>
+
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                            <!-- Page Heading -->
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size: 14px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Photo</th>
+                                            <th>Identifiant permanent</th>
+                                            <th>Nom & Prenoms</th>
+                                            <th>Sexe</th>
+                                            <th>UFR</th>
+                                            <th>Filiere</th>
+                                            <th>Niveau</th>
+                                            <th>Téléphone</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    
+                                    {% for etu in etudiants %}                                   
+                                                                          
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                
+                                                {% if etu.photo_identite %}
+                                                    <img src="{{etu.photo_identite.url}}" alt="image">
+                                                {% else %}
+                                                    <img src="https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" alt="image" width="40">
+                                                {% endif %}
+                                                </td>
+                                            <td>{{etu.identifiant_permanent}}</td>
+                                            <td>{{etu.nom}} {{etu.prenoms}}</td>
+                                            <td>{{etu.sexe}}</td>
+                                            <td>{{ etu.filiere.ufr.nom}}</td>
+                                            <td>{{ etu.filiere}}</td>
+                                            <td>{{ etu.niveau}}</td>
+                                            <td>{{ etu.telephone}}</td>
+                                            <td>
+                                                <a href="{% url 'modifier_etudiant' etu.id %}" class="btn btn-warning btn-sm" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                <a href="{% url 'supprimer_etudiant' etu.id %}" class="btn btn-danger btn-sm" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+
+                                                <a href="" class="btn btn-info btn-sm" title="Voir les informations">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                    {% endfor %}
+                                      <!-- Pagination juste après le tableau -->
+                                   <!-- Pagination juste après la liste des étudiants -->
+                                    <nav aria-label="Page navigation" class="d-flex justify-content-center mt-3">
+                                        <ul class="pagination">
+
+                                        {% if etudiants.has_previous %}
+                                            <li class="page-item">
+                                            <a class="page-link" href="?page={{ etudiants.previous_page_number }}">&laquo; Précédent</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                            <span class="page-link">&laquo; Précédent</span>
+                                            </li>
+                                        {% endif %}
+
+                                        {% for num in etudiants.paginator.page_range %}
+                                            {% if etudiants.number == num %}
+                                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                            {% elif num > etudiants.number|add:-3 and num < etudiants.number|add:3 %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if etudiants.has_next %}
+                                            <li class="page-item">
+                                            <a class="page-link" href="?page={{ etudiants.next_page_number }}">Suivant &raquo;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                            <span class="page-link">Suivant &raquo;</span>
+                                            </li>
+                                        {% endif %}
+
+                                        </ul>
+                                    </nav>
+
+                                    </div>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+{% endblock content %}
+    
+    
+                

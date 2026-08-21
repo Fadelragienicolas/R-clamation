@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1.8cm;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11.5px;
+            color: #1a1a1a;
+        }
+
+        /* EN-TÊTE */
+        .header {
+            display: table;
+            width: 100%;
+            border-bottom: 3px solid #1f7a45;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .header-left {
+            display: table-cell;
+            vertical-align: middle;
+            width: 70%;
+        }
+
+        .header-right {
+            display: table-cell;
+            vertical-align: middle;
+            width: 30%;
+            text-align: right;
+        }
+
+        .header-left .etab {
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #555;
+            margin: 0 0 4px;
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #1f7a45;
+            letter-spacing: 0.5px;
+        }
+
+        .header-left .sous-titre {
+            font-size: 10.5px;
+            color: #555;
+            margin: 4px 0 0;
+        }
+
+        .badge-numero {
+            display: inline-block;
+            border: 1.5px solid #1f7a45;
+            color: #1f7a45;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* TITRES DE SECTION */
+        .section-titre {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #1f7a45;
+            padding: 7px 12px;
+            margin: 22px 0 0;
+            border-radius: 3px 3px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* TABLEAU D'IDENTIFICATION */
+        table.info-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #cfcfcf;
+            border-top: none;
+        }
+
+        table.info-table td {
+            padding: 9px 12px;
+            border: 1px solid #e2e2e2;
+            vertical-align: middle;
+        }
+
+        table.info-table tr:nth-child(even) {
+            background-color: #f7faf8;
+        }
+
+        table.info-table .label-cell {
+            width: 32%;
+            font-weight: bold;
+            color: #1f7a45;
+            background-color: #eef6f1;
+        }
+
+        table.info-table tr:nth-child(even) .label-cell {
+            background-color: #e6f1eb;
+        }
+
+        /* SIGNATURES */
+        .signature-container {
+            display: table;
+            width: 100%;
+            margin-top: 45px;
+        }
+
+        .signature {
+            display: table-cell;
+            width: 50%;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .signature .titre-signature {
+            font-weight: bold;
+            font-size: 11px;
+            color: #333;
+            margin-bottom: 45px;
+            display: block;
+        }
+
+        .signature .ligne-signature {
+            border-top: 1px solid #999;
+            width: 75%;
+            margin: 0 auto;
+            padding-top: 4px;
+            font-size: 9.5px;
+            color: #777;
+        }
+
+        /* PIED DE PAGE */
+        .footer {
+            margin-top: 35px;
+            padding-top: 10px;
+            border-top: 1px solid #cfcfcf;
+            text-align: center;
+            font-size: 9px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- EN-TÊTE -->
+    <div class="header">
+        <div class="header-left">
+            <p class="etab">Université — Service des affaires académiques</p>
+            <h1>Fiche de Réclamation</h1>
+            <p class="sous-titre">Document officiel de suivi étudiant</p>
+        </div>
+        <div class="header-right">
+            <span class="badge-numero">N° {{ etudiant.id }}</span>
+        </div>
+    </div>
+
+    <!-- INFORMATIONS DE L'ÉTUDIANT -->
+    <div class="section-titre">Informations de l'étudiant</div>
+
+    <table class="info-table">
+        <tr>
+            <td class="label-cell">Nom et prénoms</td>
+            <td>{{ etudiant.nom }} {{ etudiant.prenoms }}</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Identifiant permanent</td>
+            <td>{{ etudiant.identifiant_permanent }}</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Téléphone</td>
+            <td>{{ etudiant.telephone }}</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Filière</td>
+            <td>{{ etudiant.filiere }}</td>
+        </tr>
+        <tr>
+            <td class="label-cell">Niveau</td>
+            <td>{{ etudiant.get_niveau_display }}</td>
+        </tr>
+    </table>
+
+    <!-- SIGNATURES -->
+    <div class="signature-container">
+
+        <div class="signature">
+            <span class="titre-signature">Signature de l'étudiant</span>
+            <div class="ligne-signature">Date et signature</div>
+        </div>
+
+        <div class="signature">
+            <span class="titre-signature">Cachet et signature de l'administration</span>
+            <div class="ligne-signature">Date et signature</div>
+        </div>
+
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <div class="footer">
+        Fiche de réclamation générée après l'inscription universitaire — document à conserver par l'étudiant.
+    </div>
+
+</body>
+</html>
